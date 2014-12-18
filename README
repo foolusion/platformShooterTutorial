@@ -1,0 +1,8 @@
+Platform Shoot Tutorial
+
+This is a tutorial for 2d canvas game dev using dart.
+
+I will try not to use any libraries because I really hate when other tutorials
+do that. The goal is to build a 2d side-scrolling platform shooter. I will
+break down all the steps into easily digestible pieces. Use the git-tags or
+releases on github to move between steps.
