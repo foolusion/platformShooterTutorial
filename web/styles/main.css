@@ -12,3 +12,7 @@ html, body {
 canvas {
   display: block;
 }
+
+#debug {
+  color: rgb(255,0,0);
+}
