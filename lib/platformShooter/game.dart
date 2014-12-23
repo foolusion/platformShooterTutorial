@@ -13,7 +13,7 @@ class Game {
   int wallTime;
   final int maxStep = 32;
   
-  var debug;
+  html.DivElement debug;
   
   Game(String selector) {
     canvas = html.querySelector(selector);
@@ -41,7 +41,9 @@ class Game {
     
     time = 0;
     wallTime = new DateTime.now().millisecondsSinceEpoch;
-    debug = html.querySelector('#debug');
+    debug = new html.DivElement();
+    debug.id = "debug";
+    html.document.body.append(debug);
   }
   
   gameLoop([_]) {
@@ -52,7 +54,6 @@ class Game {
     int currentTime = new DateTime.now().millisecondsSinceEpoch;
     int dt = currentTime - wallTime;
     wallTime = currentTime;
-    debug.text = '${dt}';
     if (dt > maxStep) {
       dt = maxStep;
     }
@@ -69,5 +70,6 @@ class Game {
     ctx.fillRect(500, 100, 30, 123);
     ctx.fillRect(50, 420, 525, 60);
     p.draw();
+    debug.text = '${p.x} ${p.y} -- ${p.dx} ${p.dy}';
   }
 }
