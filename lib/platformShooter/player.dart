@@ -9,22 +9,22 @@ class Player {
   int dy;
   
   Player(this.g, this.x, this.y, this.w, this.h, this.speed) {
-    i = new Input();
+    i = new PlayerInput();
   }
   
   input() {
     dx = 0;
     dy = 0;
-    if (i.actions['left'] == true) {
+    if (i.action('left') == true) {
       dx -= 1;
     }
-    if (i.actions['up'] == true) {
+    if (i.action('up') == true) {
       dy -= 1;
     }
-    if (i.actions['right'] == true) {
+    if (i.action('right') == true) {
       dx += 1;
     }
-    if (i.actions['down'] == true) {
+    if (i.action('down') == true) {
       dy += 1;
     }
   }

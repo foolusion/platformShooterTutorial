@@ -1,10 +1,14 @@
 part of platformShooter;
 
-class Input {
+abstract class Input {
+  bool action(String s);
+}
+
+class PlayerInput extends Input {
   List<String> keys;
   Map<String, bool> actions;
   
-  Input() {
+  PlayerInput() {
     keys = new List<String>(256);
     actions = new Map<String, bool>();
     keys[37] = 'left';
@@ -20,5 +24,13 @@ class Input {
     
     html.window.onKeyDown.listen((event) => actions[keys[event.keyCode]] = true);
     html.window.onKeyUp.listen((event) => actions[keys[event.keyCode]] = false);
+  }
+  
+  bool action(String s) {
+    var a = actions[s];
+    if (a == null) {
+      return false;
+    }
+    return a;
   }
 }
