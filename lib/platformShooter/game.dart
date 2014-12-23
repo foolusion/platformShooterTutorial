@@ -19,12 +19,12 @@ class Game {
     canvas.height = 480;
     ctx = canvas.context2D;
     
-    p = new Player(this, 0, 0, 20, 50, 300);
+    p = new Player(this, new Vector2(0, 0), 20, 50, 300);
     entities = new List<Entity>();
     entities.add(p);
-    entities.add(new Bouncer(this, 10, 30, 10, 10, 2000, 1, 0, 'rgb(0,255,255)'));
-    entities.add(new Bouncer(this, 100, 400, 100, 100, 60, -1, -1, 'rgba(127, 127, 255, .5)'));
-    entities.add(new Bouncer(this, 234, 98, 30, 60, 300, 1, 1, 'rgb(0,0,255)'));
+    entities.add(new Bouncer(this, new Vector2(0, 0), 10, 10, 2000, new Vector2(2, 1), 'rgb(0,255,255)'));
+    entities.add(new Bouncer(this, new Vector2(200, 345), 100, 100, 60, new Vector2(-1, -1), 'rgba(127, 127, 255, .5)'));
+    entities.add(new Bouncer(this, new Vector2(234, 98), 30, 60, 300, new Vector2(1, 3), 'rgb(0,0,255)'));
     time = 0;
     wallTime = new DateTime.now().millisecondsSinceEpoch;
     debug = new html.DivElement();

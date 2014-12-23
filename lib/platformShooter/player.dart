@@ -8,94 +8,93 @@ abstract class Entity {
 
 class Bouncer extends Entity {
   Game g;
-  int x, y, w, h, speed;
-  int dx, dy;
+  Vector2 position, velocity;
+  int w, h, speed;
   String color;
   
-  Bouncer(this.g, this.x, this.y, this.w, this.h, this.speed, this.dx, this.dy, this.color);
+  Bouncer(this.g, this.position, this.w, this.h, this.speed, velocity, this.color) {
+    this.velocity = velocity.normalize();
+  }
   
   input() {}
   
   update(dt) {
-    int xx = x + dx * speed * dt ~/ 1000;
-    int yy = y + dy * speed * dt ~/ 1000;
-    if (xx < 0) {
-      dx = -dx;
-      x = 0;
-    } else if (xx+w > g.canvas.width) {
-      dx = -dx;
-      x = g.canvas.width - w;
+    final Vector2 pp = position + (velocity * speed * (dt / 1000));
+    if (pp.x < 0) {
+      velocity.x = -velocity.x;
+      position.x = 0;
+    } else if (pp.x+w > g.canvas.width) {
+      velocity.x = -velocity.x;
+      position.x = g.canvas.width - w;
     } else {
-      x = xx;
+      position.x = pp.x;
     }
-    if (yy < 0) {
-      dy = -dy;
-      y = 0;
-    } else if (yy+h > g.canvas.height) {
-      dy = -dy;
-      y = g.canvas.height - h;
+    if (pp.y < 0) {
+      velocity.y = -velocity.y;
+      position.y = 0;
+    } else if (pp.y+h > g.canvas.height) {
+      velocity.y = -velocity.y;
+      position.y = g.canvas.height - h;
     } else {
-      y = yy;
+      position.y = pp.y;
     }
   }
   
   draw() {
     g.ctx.fillStyle = color;
-    g.ctx.fillRect(x, y, w, h);
+    g.ctx.fillRect(position.x, position.y, w, h);
   }
 }
 
 class Player extends Entity {
   Game g;
   Input i;
-  int x, y, w, h, speed;
+  Vector2 position, velocity;
+  int w, h, speed;
   
-  int dx;
-  int dy;
-  
-  Player(this.g, this.x, this.y, this.w, this.h, this.speed) {
+  Player(this.g, this.position, this.w, this.h, this.speed) {
     i = new PlayerInput();
+    velocity = new Vector2(0, 0);
   }
   
   input() {
-    dx = 0;
-    dy = 0;
+    velocity = new Vector2(0, 0);
     if (i.action('left') == true) {
-      dx -= 1;
+      velocity.x = velocity.x - 1;
     }
     if (i.action('up') == true) {
-      dy -= 1;
+      velocity.y = velocity.y - 1;
     }
     if (i.action('right') == true) {
-      dx += 1;
+      velocity.x = velocity.x + 1;
     }
     if (i.action('down') == true) {
-      dy += 1;
+      velocity.y = velocity.y + 1;
     }
+    velocity = velocity.normalize();
   }
   
   update(final int dt) {
     final int msPerSec = 1000;
-    final int xx = x + dx * speed * dt ~/ msPerSec;
-    final int yy = y + dy * speed * dt ~/ msPerSec;
-    if (xx < 0) {
-      x = 0;
-    } else if (xx+w > g.canvas.width) {
-      x = g.canvas.width - w;
+    Vector2 pp = position + (velocity * speed * dt / 1000);
+    if (pp.x < 0) {
+      position.x = 0;
+    } else if (pp.x+w > g.canvas.width) {
+      position.x = g.canvas.width - w;
     } else {
-      x = xx;
+      position.x = pp.x;
     }
-    if (yy < 0) {
-      y = 0;
-    } else if (yy+h > g.canvas.height) {
-      y = g.canvas.height - h;
+    if (pp.y < 0) {
+      position.y = 0;
+    } else if (pp.y+h > g.canvas.height) {
+      position.y = g.canvas.height - h;
     } else {
-      y = yy;
+      position.y = pp.y;
     }
   }
   
   draw() {
     g.ctx.fillStyle = 'rgba(255, 0, 0, .9)';
-    g.ctx.fillRect(x, y, w, h);
+    g.ctx.fillRect(position.x, position.y, w, h);
   }
 }
