@@ -5,6 +5,7 @@ class Game {
   html.CanvasRenderingContext2D ctx;
   
   Player p;
+  List<Entity> entities;
   
   int time;
   int wallTime;
@@ -18,14 +19,16 @@ class Game {
     canvas.height = 480;
     ctx = canvas.context2D;
     
-
-    
     p = new Player(this, 0, 0, 20, 50, 300);
-    
+    entities = new List<Entity>();
+    entities.add(p);
+    entities.add(new Bouncer(this, 10, 30, 10, 10, 2000, 1, 0, 'rgb(0,255,255)'));
+    entities.add(new Bouncer(this, 100, 400, 100, 100, 60, -1, -1, 'rgba(127, 127, 255, .5)'));
+    entities.add(new Bouncer(this, 234, 98, 30, 60, 300, 1, 1, 'rgb(0,0,255)'));
     time = 0;
     wallTime = new DateTime.now().millisecondsSinceEpoch;
     debug = new html.DivElement();
-    debug.id = "debug";
+    debug.className = "debug";
     html.document.body.append(debug);
   }
   
@@ -42,17 +45,25 @@ class Game {
     }
     
     // resolve the players input actions from the keyboard then call their update function.
-    p.input();
-    p.update(dt);
+    for (Entity e in entities) {
+      e.input();
+    }
     
-    // clear the screen then draw background and player.
+    for (Entity e in entities) {
+      e.update(dt);
+    }
+    
+    // clear the screen then draw background.
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = 'rgb(255,255,255)';
     ctx.fillRect(100, 100, 100, 100);
     ctx.fillRect(300, 300, 50, 50);
     ctx.fillRect(500, 100, 30, 123);
     ctx.fillRect(50, 420, 525, 60);
-    p.draw();
-    debug.text = '${1000~/dt}  ${p.x} ${p.y} -- ${p.dx} ${p.dy}';
+    
+    for (Entity e in entities) {
+      e.draw();
+    }
+    debug.text = '${1000~/dt}';
   }
 }

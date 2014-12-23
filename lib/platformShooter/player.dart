@@ -1,6 +1,51 @@
 part of platformShooter;
 
-class Player {
+abstract class Entity {
+  input();
+  update(dt);
+  draw();
+}
+
+class Bouncer extends Entity {
+  Game g;
+  int x, y, w, h, speed;
+  int dx, dy;
+  String color;
+  
+  Bouncer(this.g, this.x, this.y, this.w, this.h, this.speed, this.dx, this.dy, this.color);
+  
+  input() {}
+  
+  update(dt) {
+    int xx = x + dx * speed * dt ~/ 1000;
+    int yy = y + dy * speed * dt ~/ 1000;
+    if (xx < 0) {
+      dx = -dx;
+      x = 0;
+    } else if (xx+w > g.canvas.width) {
+      dx = -dx;
+      x = g.canvas.width - w;
+    } else {
+      x = xx;
+    }
+    if (yy < 0) {
+      dy = -dy;
+      y = 0;
+    } else if (yy+h > g.canvas.height) {
+      dy = -dy;
+      y = g.canvas.height - h;
+    } else {
+      y = yy;
+    }
+  }
+  
+  draw() {
+    g.ctx.fillStyle = color;
+    g.ctx.fillRect(x, y, w, h);
+  }
+}
+
+class Player extends Entity {
   Game g;
   Input i;
   int x, y, w, h, speed;
@@ -31,21 +76,21 @@ class Player {
   
   update(final int dt) {
     final int msPerSec = 1000;
-    final int xx = dx*speed*dt~/msPerSec;
-    final int yy = dy*speed*dt~/msPerSec;
-    if (x + xx < 0) {
+    final int xx = x + dx * speed * dt ~/ msPerSec;
+    final int yy = y + dy * speed * dt ~/ msPerSec;
+    if (xx < 0) {
       x = 0;
-    } else if (x + w + xx > g.canvas.width) {
+    } else if (xx+w > g.canvas.width) {
       x = g.canvas.width - w;
     } else {
-      x += xx;
+      x = xx;
     }
-    if (y + yy < 0) {
+    if (yy < 0) {
       y = 0;
-    } else if (y+h+yy > g.canvas.height) {
+    } else if (yy+h > g.canvas.height) {
       y = g.canvas.height - h;
     } else {
-      y += yy;
+      y = yy;
     }
   }
   

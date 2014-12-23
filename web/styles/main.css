@@ -13,6 +13,6 @@ canvas {
   display: block;
 }
 
-#debug {
+.debug {
   color: rgb(255,0,0);
 }
