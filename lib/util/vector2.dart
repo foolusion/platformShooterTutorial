@@ -8,9 +8,9 @@ class Vector2 {
     this._y = y.toDouble();
   }
   
-  get x => _x;
+  double get x => _x;
   set x(num n) => _x = n.toDouble();
-  get y => _y;
+  double get y => _y;
   set y(num n) => _y = n.toDouble();
   
   Vector2 operator +(Vector2 v) => new Vector2(_x+v._x, _y+v._y);
