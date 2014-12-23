@@ -2,27 +2,29 @@ part of platformShooter;
 
 class Player {
   Game g;
-  
+  Input i;
   int x, y, w, h, speed;
   
   int dx;
   int dy;
   
-  Player(this.g, this.x, this.y, this.w, this.h, this.speed);
+  Player(this.g, this.x, this.y, this.w, this.h, this.speed) {
+    i = new Input();
+  }
   
-  input(Map<String, bool> actions) {
+  input() {
     dx = 0;
     dy = 0;
-    if (actions['left'] == true) {
+    if (i.actions['left'] == true) {
       dx -= 1;
     }
-    if (actions['up'] == true) {
+    if (i.actions['up'] == true) {
       dy -= 1;
     }
-    if (actions['right'] == true) {
+    if (i.actions['right'] == true) {
       dx += 1;
     }
-    if (actions['down'] == true) {
+    if (i.actions['down'] == true) {
       dy += 1;
     }
   }

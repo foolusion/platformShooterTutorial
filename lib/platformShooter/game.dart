@@ -4,9 +4,6 @@ class Game {
   html.CanvasElement canvas;
   html.CanvasRenderingContext2D ctx;
   
-  List<String> keys;
-  Map<String, bool> actions;
-  
   Player p;
   
   int time;
@@ -21,21 +18,7 @@ class Game {
     canvas.height = 480;
     ctx = canvas.context2D;
     
-    keys = new List<String>(256);
-    actions = new Map<String, bool>();
-    keys[37] = 'left';
-    keys[38] = 'up';
-    keys[39] = 'right';
-    keys[40] = 'down';
-    keys[17] = 'jump';
-    keys[65] = 'left';
-    keys[87] = 'up';
-    keys[83] = 'right';
-    keys[82] = 'down';
-    keys[32] = 'jump';
-    
-    html.window.onKeyDown.listen((event) => actions[keys[event.keyCode]] = true);
-    html.window.onKeyUp.listen((event) => actions[keys[event.keyCode]] = false);
+
     
     p = new Player(this, 0, 0, 20, 50, 300);
     
@@ -59,7 +42,7 @@ class Game {
     }
     
     // resolve the players input actions from the keyboard then call their update function.
-    p.input(actions);
+    p.input();
     p.update(dt);
     
     // clear the screen then draw background and player.
@@ -70,6 +53,6 @@ class Game {
     ctx.fillRect(500, 100, 30, 123);
     ctx.fillRect(50, 420, 525, 60);
     p.draw();
-    debug.text = '${p.x} ${p.y} -- ${p.dx} ${p.dy}';
+    debug.text = '${1000~/dt}  ${p.x} ${p.y} -- ${p.dx} ${p.dy}';
   }
 }
