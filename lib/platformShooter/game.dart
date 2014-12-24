@@ -4,6 +4,7 @@ class Game {
   html.CanvasElement canvas;
   html.CanvasRenderingContext2D ctx;
   
+  World world;
   Player p;
   List<Entity> entities;
   
@@ -19,6 +20,7 @@ class Game {
     canvas.height = 480;
     ctx = canvas.context2D;
     
+    world = new World(this);
     p = new Player(this, new Box(50, 30, 20, 50));
     entities = new List<Entity>();
     entities.add(new Static(this, new Vector2(100, 100), 100, 100));
@@ -58,6 +60,7 @@ class Game {
     
     // clear the screen
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    world.draw();
     
     for (Entity e in entities) {
       e.draw();

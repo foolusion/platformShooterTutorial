@@ -8,3 +8,5 @@ import 'package:platformShooterTutorial/util/util.dart';
 part 'game.dart';
 part 'input.dart';
 part 'player.dart';
+part 'tiles.dart';
+part 'world.dart';
