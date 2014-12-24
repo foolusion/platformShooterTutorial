@@ -18,12 +18,12 @@ class Vector2 {
   Vector2 operator *(num n) => new Vector2(_x*n, _y*n);
   Vector2 operator /(num n) => new Vector2(_x/n, _y/n);
 
-  double length() {
+  double get length {
     return math.sqrt(_x*_x + _y*_y);
   }
     
   Vector2 normalize() {
-    double l = this.length();
+    double l = length;
     if (l != 0) {
       return this / l;
     }

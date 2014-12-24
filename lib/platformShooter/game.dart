@@ -19,12 +19,15 @@ class Game {
     canvas.height = 480;
     ctx = canvas.context2D;
     
-    p = new Player(this, new Vector2(0, 0), 20, 50, 300);
+    p = new Player(this, new Box(15, 30, 20, 50));
     entities = new List<Entity>();
+    entities.add(new Static(this, new Vector2(100, 100), 100, 100));
+    entities.add(new Static(this, new Vector2(400,100), 100, 100));
+    entities.add(new Static(this, new Vector2(50, 400), 500, 50));
     entities.add(p);
-    entities.add(new Bouncer(this, new Vector2(0, 0), 10, 10, 2000, new Vector2(2, 1), 'rgb(0,255,255)'));
-    entities.add(new Bouncer(this, new Vector2(200, 345), 100, 100, 60, new Vector2(-1, -1), 'rgba(127, 127, 255, .5)'));
-    entities.add(new Bouncer(this, new Vector2(234, 98), 30, 60, 300, new Vector2(1, 3), 'rgb(0,0,255)'));
+    entities.add(new Bouncer(this, new Box(0, 0, 10, 10), 1000, new Vector2(2, 1), 'rgb(0,255,255)'));
+    entities.add(new Bouncer(this, new Box(200, 200, 100, 100), 60, new Vector2(-1, -1), 'rgba(127, 127, 255, .5)'));
+    entities.add(new Bouncer(this, new Box(234, 98, 30, 60), 300, new Vector2(1, 3), 'rgb(0,0,255)'));
     time = 0;
     wallTime = new DateTime.now().millisecondsSinceEpoch;
     debug = new html.DivElement();
@@ -53,13 +56,8 @@ class Game {
       e.update(dt);
     }
     
-    // clear the screen then draw background.
+    // clear the screen
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'rgb(255,255,255)';
-    ctx.fillRect(100, 100, 100, 100);
-    ctx.fillRect(300, 300, 50, 50);
-    ctx.fillRect(500, 100, 30, 123);
-    ctx.fillRect(50, 420, 525, 60);
     
     for (Entity e in entities) {
       e.draw();
