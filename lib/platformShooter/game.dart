@@ -19,7 +19,7 @@ class Game {
     canvas.height = 480;
     ctx = canvas.context2D;
     
-    p = new Player(this, new Box(15, 30, 20, 50));
+    p = new Player(this, new Box(50, 30, 20, 50));
     entities = new List<Entity>();
     entities.add(new Static(this, new Vector2(100, 100), 100, 100));
     entities.add(new Static(this, new Vector2(400,100), 100, 100));

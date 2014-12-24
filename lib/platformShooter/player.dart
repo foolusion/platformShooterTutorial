@@ -163,12 +163,23 @@ class Player extends Entity {
       if (bb.intersects(e.box)) {
         if (box.right <= e.box.left && bb.right > e.box.left) {
           bb.right = e.box.left;
+          if (e.velocity.x.sign == velocity.x.sign) {
+            velocity.x = math.min(e.velocity.x, velocity.x);
+          } else {
+            velocity.x = 0;
+          }
         }
         if (box.left >= e.box.right && bb.left < e.box.right) {
           bb.left = e.box.right;
+          if (e.velocity.x.sign == velocity.x.sign) {
+            velocity.x = math.min(e.velocity.x, velocity.x);
+          } else {
+            velocity.x = 0;
+          }
         }
         if (box.top >= e.box.bottom && bb.top < e.box.bottom) {
           bb.top = e.box.bottom;
+          velocity.y = 0;
         }
         if (box.bottom <= e.box.top && bb.bottom > e.box.top) {
           bb.bottom = e.box.top;
@@ -181,7 +192,16 @@ class Player extends Entity {
   }
 
   draw() {
-    g.ctx.fillStyle = 'rgba(255, 0, 0, .9)';
+    g.ctx.fillStyle = 'rgb(255, 0, 0)';
     g.ctx.fillRect(box.x, box.y, box.w, box.h);
+    g.ctx.save();
+    g.ctx.strokeStyle = 'rgb(0,255,0)';
+    g.ctx.translate(box.center.x, box.center.y);
+    g.ctx.beginPath();
+    g.ctx.moveTo(0, 0);
+    g.ctx.lineTo(velocity.x *16, velocity.y*16);
+    g.ctx.closePath();
+    g.ctx.stroke();
+    g.ctx.restore();
   }
 }
