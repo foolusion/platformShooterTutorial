@@ -60,11 +60,19 @@ class Game {
     
     // clear the screen
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.save();
+    Box s = new Box(0, 0, canvas.width, canvas.height);
+    s.center = p.box.center;
+    ctx.translate(-s.x.toInt(), -s.y.toInt());
+    
     world.draw();
     
     for (Entity e in entities) {
       e.draw();
     }
+    
+    ctx.restore();
+    
     debug.text = '${1000~/dt}';
   }
 }
