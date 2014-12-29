@@ -21,11 +21,8 @@ class Game {
     ctx = canvas.context2D;
     
     world = new World(this);
-    p = new Player(this, new Box(50, 30, 20, 50));
+    p = new Player(this, new Box(50, 30, 20, 30));
     entities = new List<Entity>();
-    entities.add(new Static(this, new Vector2(100, 100), 100, 100));
-    entities.add(new Static(this, new Vector2(400,100), 100, 100));
-    entities.add(new Static(this, new Vector2(50, 400), 500, 50));
     entities.add(p);
     entities.add(new Bouncer(this, new Box(0, 0, 10, 10), 1000, new Vector2(2, 1), 'rgb(0,255,255)'));
     entities.add(new Bouncer(this, new Box(200, 200, 100, 100), 60, new Vector2(-1, -1), 'rgba(127, 127, 255, .5)'));

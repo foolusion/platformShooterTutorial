@@ -132,20 +132,25 @@ class Player extends Entity {
     if (i.action('jump') == true && state != 'flying') {
       velocity.y -= 6;
       state = 'flying';
+    } else if (i.action('jump') == false && state == 'flying') {
+      if (velocity.y < -4) {
+        velocity.y = -4;
+      }
     }
   }
 
   update(final int dt) {
-    // gravity
-    if (state == 'flying') {
-      velocity.y += 0.21875;
-      if (velocity.y > 16) {
-        velocity.y = 16;
-      }
+
+    velocity.y += 0.21875;
+    if (velocity.y > 16) {
+      velocity.y = 16;
+
     }
     final int msPerSec = 1000;
-    final Vector2 pp = new Vector2(box.x, box.y) + (velocity * 64 * dt / msPerSec);
+    final Vector2 pp = new Vector2(box.x, box.y) + (velocity * 128 * dt / msPerSec);
     Box bb = new Box(pp.x, pp.y, box.w, box.h);
+
+    /* This checks that the player doesn't move off the screen. */
     if (bb.left < 0) {
       bb.x = 0;
     } else if (bb.right > g.canvas.width) {
@@ -156,6 +161,29 @@ class Player extends Entity {
     } else if (bb.bottom > g.canvas.height) {
       bb.bottom = g.canvas.height;
     }
+
+    for (Tile t in g.world.getTilesNear(bb)) {
+      if (t.isSolid && bb.intersects(t.box)) {
+        if (box.bottom <= t.box.top && bb.bottom > t.box.top && bb.horizontalOverlap(t.box)) {
+          bb.bottom = t.box.top;
+          velocity.y = 0;
+          state = 'walking';
+        }
+        if (box.right <= t.box.left && bb.right > t.box.left && bb.verticalOverlap(t.box)) {
+          bb.right = t.box.left;
+          velocity.x = 0;
+        }
+        if (box.left >= t.box.right && bb.left < t.box.right && bb.verticalOverlap(t.box)) {
+          bb.left = t.box.right;
+          velocity.x = 0;
+        }
+        if (box.top >= t.box.bottom && bb.top < t.box.bottom && bb.horizontalOverlap(t.box)) {
+          bb.top = t.box.bottom;
+          velocity.y = 0;
+        }
+      }
+    }
+
     for (Entity e in g.entities) {
       if (this == e) {
         continue;
@@ -199,7 +227,7 @@ class Player extends Entity {
     g.ctx.translate(box.center.x, box.center.y);
     g.ctx.beginPath();
     g.ctx.moveTo(0, 0);
-    g.ctx.lineTo(velocity.x *16, velocity.y*16);
+    g.ctx.lineTo(velocity.x*16, velocity.y*16);
     g.ctx.closePath();
     g.ctx.stroke();
     g.ctx.restore();

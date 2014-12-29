@@ -1,6 +1,16 @@
 part of util;
 
 class Box {
+  static const int NO_SIDE = 0;
+  static const int SIDE_N  = 1;
+  static const int SIDE_NE = 2;
+  static const int SIDE_E  = 3;
+  static const int SIDE_SE = 4;
+  static const int SIDE_S  = 5;
+  static const int SIDE_SW = 6;
+  static const int SIDE_W  = 7;
+  static const int SIDE_NW = 8;
+
   double _x, _y, _w, _h;
   
   Box(num x, num y, num w, num h) {
@@ -60,5 +70,23 @@ class Box {
       return false;
     }
     return true;
+  }
+  
+  bool horizontalOverlap(Box b) {
+    if (b.left > left && b.left < right) {
+      return true;
+    } else if (b.right > left && b.right < right) {
+      return true;
+    }
+    return false;
+  }
+  
+  bool verticalOverlap(Box b) {
+    if (b.top > top && b.top < bottom) {
+      return true;
+    } else if (b.bottom > top && b.bottom < bottom) {
+      return true;
+    }
+    return false;
   }
 }
